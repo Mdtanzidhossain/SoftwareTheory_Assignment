@@ -1,74 +1,77 @@
-class FindLargestShape
-{
-    public static void main(String arg[])
-    {
-        Rectangle rec = new Rectangle(10, 4);
-        Square sqre = new Square(7);
-        Circle crcl = new Circle(3.5);
-        
-        System.out.println("Rectangle Area : " + rec.getArea());
-        System.out.println("Square Area : " + sqre.getArea());
-        System.out.println("Circle Area : " + crcl.getArea());
-        System.out.println();
-        
-        if ((rec.getArea() > crcl.getArea()) && (rec.getArea() > sqre.getArea()))
-        {
-            System.out.println("Rectangle has the largest area.");
+
+public interface Shape {
+    void draw();
+}
+
+public class Rectangle implements Shape {
+
+    @Override
+    public void draw() {
+        System.out.println("Inside Rectangle::draw() method.");
+    }
+}
+
+public class Square implements Shape {
+
+    @Override
+    public void draw() {
+        System.out.println("Inside Square::draw() method.");
+    }
+}
+
+public class Circle implements Shape {
+
+    @Override
+    public void draw() {
+        System.out.println("Inside Circle::draw() method.");
+    }
+}
+
+public class ShapeFactory {
+
+    //use getShape method to get object of type shape
+    public Shape getShape(String shapeType){
+        if(shapeType == null){
+            return null;
         }
-        else if( sqre.getArea() > crcl.getArea() )
-        {
-            System.out.println("Square has the largest area.");
+        if(shapeType.equalsIgnoreCase("CIRCLE")){
+            return new Circle();
+
+        } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+            return new Rectangle();
+
+        } else if(shapeType.equalsIgnoreCase("SQUARE")){
+            return new Square();
+
         }
-        else
-        {
-            System.out.println("Circle has the largest area.");
-        }    
+
+        return null;
     }
 }
 
-class Rectangle
-{
-    double length;
-    double breadth;
 
-    Rectangle(double length, double breadth)
-    {
-        this.length = length;
-        this.breadth = breadth;
-    }
 
-    double getArea()
-    {
-        return length * breadth;
-    }
-}
+public class FactoryPatternDemo {
 
-class Square
-{
-    double side;
+    public static void main(String[] args) {
+        ShapeFactory shapeFactory = new ShapeFactory();
 
-    Square(double side)
-    {
-        this.side = side;
-    }
+        //get an object of Circle and call its draw method.
+        Shape shape1 = shapeFactory.getShape("CIRCLE");
 
-    double getArea()
-    {
-        return side * side;
-    }
-}
+        //call draw method of Circle
+        shape1.draw();
 
-class Circle
-{
-    double radius;
+        //get an object of Rectangle and call its draw method.
+        Shape shape2 = shapeFactory.getShape("RECTANGLE");
 
-    Circle(double radius)
-    {
-        this.radius = radius;
-    }
+        //call draw method of Rectangle
+        shape2.draw();
 
-    double getArea()
-    {
-        return (22.0/7.0) * radius * radius;
+        //get an object of Square and call its draw method.
+        Shape shape3 = shapeFactory.getShape("SQUARE");
+
+        //call draw method of square
+        shape3.draw();
     }
 }
